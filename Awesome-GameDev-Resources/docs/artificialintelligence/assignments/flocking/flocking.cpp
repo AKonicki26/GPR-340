@@ -6,6 +6,8 @@
 
 using namespace std;
 
+constexpr double SECONDS_PER_FRAME = 1;
+
 struct Vector2 {
   double x=0, y=0;
   Vector2() : x(0), y(0){};
@@ -149,10 +151,10 @@ int main() {
   }
   // Final input reading and processing
   // todo: edit this. probably my code will be different than yours.
-  while (getline(cin, line)) { // game loop
+  while (true) { // game loop
     // Use double buffer! you should read from the current and store changes in the new state.
     currentState = newState;
-    double deltaT = stod(line);
+    double deltaT = SECONDS_PER_FRAME;
     // a vector of the sum of forces for each boid.
     vector<Vector2> allForces = vector<Vector2>(numberOfBoids, {0, 0});
     // Compute Forces
@@ -189,3 +191,10 @@ int main() {
 
   return 0;
 }
+
+/*
+Default input values
+1.000 0.000 0.000 0.000 1.000 0.000 0.000 2
+0.000 0.500 0.000 0.000
+0.000 -0.500 0.000 0.000
+ */
