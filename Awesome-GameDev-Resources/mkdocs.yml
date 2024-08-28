@@ -1,0 +1,380 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
+site_name: Awesome GameDev Resources
+site_description: Awesome GameDev Resources for learning how to make games
+site_url: https://courses.tolstenko.net
+repo_url: https://github.com/InfiniBrains/Awesome-GameDev-Resources
+repo_name: InfiniBrains/Awesome-GameDev-Resources
+
+site_author: See contributors and authors at https://github.com/InfiniBrains/Awesome-GameDev-Resources/graphs/contributors
+
+nav:
+  - Home: README.md
+  - Intro. Game Programming:
+      - introgameprog/README.md
+  - AI:
+      - artificialintelligence/README.md
+      - Spatial Quantization: artificialintelligence/readings/spatial-quantization.md
+      - Spatial Hashing: artificialintelligence/04-spatialhashing/README.md
+      - KD-Tree: artificialintelligence/05-kdtree/README.md
+      - Pathfinding: artificialintelligence/06-pathfinding/README.md
+      - Maze Data Structure: blog/posts/MazeDataStructure/MazeDataStructures.md
+      - AI for Testing: artificialintelligence/07-automatedtesting/README.md
+      - MinMax: artificialintelligence/09-minmax/README.md
+      - Assignments:
+          - artificialintelligence/assignments/README.md
+          - Setup: artificialintelligence/assignments/README.md
+          - Flocking: artificialintelligence/assignments/flocking/README.md
+          - Game of Life: artificialintelligence/assignments/life/README.md
+          - Pseudo-Random Number Generator: artificialintelligence/assignments/rng/README.md
+          - Maze: artificialintelligence/assignments/maze/README.md
+          - Catch the Cat: artificialintelligence/assignments/catchthecat/README.md
+          - GenAI: artificialintelligence/assignments/genai/README.md
+  - Intro. Programming:
+      - intro/README.md
+      - Introduction to C++: intro/01-introduction/README.md
+      - Setup: intro/02-tooling/README.md
+      - Data Types: intro/03-datatypes/README.md
+      - Conditionals: intro/04-conditionals/README.md
+      - Loops: intro/05-loops/README.md
+      - Functions: intro/06-functions/README.md
+      - Streams: intro/07-streams/README.md
+      - Arrays: intro/08-arrays/README.md
+      - Recursion: intro/09-recursion/README.md
+      - Sorting: intro/10-sorting/README.md
+  - Adv. Programming:
+      - advanced/README.md
+      - Advanced C++:
+          - advanced/01-introduction/README.md
+          - Setup: advanced/01-introduction/setup.md
+      - OOP: advanced/02-oop/README.md
+      - Pointers: advanced/03-pointers/README.md
+      - Operators: advanced/04-operators/README.md
+  - Algorithms:
+      - algorithms/README.md
+      - Introduction to Algorithms: algorithms/01-introduction/README.md
+      - Algorithm Analysis: algorithms/02-analysis/README.md
+      - Dynamic Data: algorithms/03-dynamic-data/README.md
+      - Sorting: algorithms/04-sorting/README.md
+      - Divide and Conquer: algorithms/05-divide-and-conquer/README.md
+      - Hashtables: algorithms/06-hashtables/README.md
+      - Midterm: algorithms/07-midterm/README.md
+      - Stack and Queue: algorithms/08-stack-and-queue/README.md
+      - Break: algorithms/09-break/README.md
+      - Graphs: algorithms/10-graphs/README.md
+      - Dijkstra: algorithms/11-dijkstra/README.md
+      - Minimum Spanning Tree: algorithms/12-mst/README.md
+      - Binary Search Tree: algorithms/13-bsp/README.md
+      - Heap: algorithms/14-heap/README.md
+      - Project: algorithms/15-project/README.md
+      - Final: algorithms/16-final/README.md
+  - Portfolio:
+      - portfolio/README.md
+      - Introduction: portfolio/01-introduction/README.md
+      - Case Study:
+        - portfolio/02-cases/README.md
+        - Case Study Example: portfolio/02-cases/example.com.md
+      - Portfolio Structure: portfolio/03-structure/README.md
+      - Communication: portfolio/04-communication/README.md
+      - Strategy: portfolio/05-strategy/README.md
+      - Reels: portfolio/06-reels/README.md
+      - Style: portfolio/06-style/README.md
+      - Frontend: portfolio/10-frontend/README.md
+      - Wordpress: portfolio/08-frontend/README.md
+      - Getting Ready: portfolio/09-get-ready/README.md
+      - Hosting: portfolio/07-hosting/README.md
+      - Dynamic Content: portfolio/11-dynamic/README.md
+      - Promoting: portfolio/12-promoting/README.md
+      - Cover Letter: portfolio/13-cover-letter/README.md
+      - CV: portfolio/14-cv/README.md
+  - Blog:
+      - blog/index.md
+  - Support:
+      - support/50rs-button.md
+
+docs_dir: ./docs
+
+theme:
+  language: en
+  name: material
+  custom_dir: overrides
+  favicon: assets/logo.png
+  logo: assets/logo.png
+  features:
+    - attr_list
+    - md_in_html
+    - pymdownx.superfences
+    - announce.dismiss
+    - content.action.edit
+#    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    # - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+#    - navigation.instant
+#    - navigation.instant.prefetch
+    - navigation.prune # prune is incompatible with expand
+#    - navigation.sections
+    - navigation.tabs
+#    - navigation.tabs.sticky
+    - navigation.top
+#    - navigation.expand
+    - navigation.tracking
+    - navigation.path
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    - toc.integrate
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+#    - scheme: default
+#      primary: indigo
+#      accent: indigo
+#      toggle:
+#        icon: material/brightness-7
+#        name: Switch to dark mode
+#    - scheme: slate
+#      primary: indigo
+#      accent: indigo
+#      toggle:
+#        icon: material/brightness-4
+#        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+#  favicon: assets/favicon.png
+#  icon:
+#    repo: fontawesome/brands/git-alt
+#    logo: logo
+
+#reveal:
+#  path: reveal.js/dist
+#  transition: slide
+#  theme:
+#    name: white.css
+#    path: theme
+#  plugin:
+#    path: reveal.js/plugin
+
+edit_uri: edit/main/docs/
+
+copyright: Copyright &copy; 2024 Tolstenko, Game Guild Community and Others
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.keys
+  - pymdownx.magiclink
+#      repo_url_shorthand: true
+#      user: InfiniBrains
+#      repo: Awesome-GameDev-Resources
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: vegalite
+          class: vegalite
+          format: !!python/name:mkdocs_charts_plugin.fences.fence_vegalite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+plugins:
+#  - mkdocs-revealjs
+  - social:
+      cards: true
+      cards_layout: default
+      enabled: true
+  - blog:
+#      blog_toc: true
+#      blog_authors: true
+      post_url_date_format: yyyy/MM/dd
+      post_url_format: "{date}/{slug}"
+      post_date_format: short
+      blog_dir: blog
+      post_readtime_words_per_minute: 100
+      authors_file: blog/.authors.yml
+  - rss:
+      match_path: blog/posts/.*
+      date_from_meta:
+        as_creation: date
+      comments_path: "#__comments"
+      categories:
+        - categories
+        - tags
+  - timetoread:
+      wpm: 100
+  - git-committers:
+      repository: InfiniBrains/Awesome-GameDev-Resources
+      branch: main
+      docs_path: ./
+      cache_dir: /tmp/cache/awesome-gamedev-resources
+#  - git-authors
+  - git-revision-date-localized:
+      enable_creation_date: true
+      fallback_to_build_date: true
+      locale: en
+      timezone: America/New_York
+  - same-dir
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
+  - exclude:
+      glob:
+        - .git/*
+        - .github/*
+        - node_modules/*
+        - buildDocs/*
+        - cmake-build-debug/*
+        - .cache
+        - site
+  - glightbox
+  - charts
+#  - with-pdf:
+#      author: InfiniBrains
+#      copyright: Copyleft by InfiniBrains
+#      render_js: true
+#      headless_chrome_path: chromium
+#      #cover: false
+#      #back_cover: true
+#      cover_title: Awesome GameDev Book
+#      cover_subtitle: InfiniBrains Community Initiative
+#      #custom_template_path: TEMPLATES PATH
+#      #toc_title: TOC TITLE TEXT
+#      #heading_shift: false
+#      toc_level: 2
+#      #ordered_chapter_level: 2
+#      #excludes_children:
+#      #    - 'release-notes/:upgrading'
+#      #    - 'release-notes/:changelog'
+#      exclude_pages:
+#          - 'blog/'
+#      #    - 'appendix/contribute/'
+#      #convert_iframe:
+#      #    - src: IFRAME SRC
+#      #      img: POSTER IMAGE URL
+#      #      text: ALTERNATE TEXT
+#      #    - src: ...
+#      two_columns_level: 2
+#      #output_path: any-place/document.pdf
+#      enabled_if_env: 'CI'
+#      #debug_html: true
+#      #show_anchors: true
+##      verbose: true
+#  - optimize
+
+extra:
+  privacy:
+    enabled: true
+  consent:
+    cookies:
+      smartlook: SmartLook
+    description: >-
+      This site uses cookies to provide you with a better user experience. By using this site you consent to our use of cookies.
+  generator: false
+  annotate:
+    json: [ .s2 ]
+  analytics:
+    provider: google
+    property: G-347541715
+#    feedback:
+#      title: Was this page helpful?
+#      ratings:
+#        - icon: material/emoticon-happy-outline
+#          name: This page was helpful
+#          data: 1
+#          note: >-
+#            Thanks for your feedback!
+#        - icon: material/emoticon-sad-outline
+#          name: This page could be improved
+#          data: 0
+#          note: >-
+#            Thanks for your feedback! Help us improve this page by
+#            using our <a href="..." target="_blank" rel="noopener">feedback form</a>.
+#  social:
+#    - icon: fontawesome/brands/github
+#      link: https://github.com/InfiniBrains
+#    - icon: fontawesome/brands/gitter
+#      link: https://gitter.im/squidfunk/mkdocs-material
+#    - icon: fontawesome/brands/docker
+#      link: https://hub.docker.com/r/squidfunk/mkdocs-material/
+#    - icon: fontawesome/brands/python
+#      link: https://pypi.org/project/mkdocs-material/
+#    - icon: fontawesome/brands/twitter
+#      link: https://twitter.com/squidfunk
+
+#extra_javascript:
+#  - javascripts/katex.js
+#  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
+#  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+#
+#extra_css:
+#  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdn.jsdelivr.net/npm/vega@5
+  - https://cdn.jsdelivr.net/npm/vega-lite@5
+  - https://cdn.jsdelivr.net/npm/vega-embed@6
+
+watch:
+  - docs
+
+exclude_docs: |
+  site/
+  cmake-build-**/
+  build/
+  .cache/

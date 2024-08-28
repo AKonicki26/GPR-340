@@ -1,0 +1,149 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - master
+      - main
+env:
+  CPM_SOURCE_CACHE: ${{ github.workspace }}/cpm_modules
+
+jobs:
+  build:
+    name: Build and publish documentation
+    runs-on: ubuntu-latest
+    steps:
+      - run: git config --global --add safe.directory '*'
+
+      - uses: actions/checkout@v3
+        with:
+          # need for git operations
+          fetch-depth: 0
+          lfs: false
+          submodules: true
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            "**/cpm_modules"
+            "/tmp/cache/awesome-gamedev-resources"
+          key: ${{ github.workflow }}-cpm-modules-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake', '/tmp/cache/awesome-gamedev-resources/*.json' ) }}
+
+      - name: APT Update
+        run: sudo apt update
+
+      - name: chrome
+        run: |
+          sudo apt install -y software-properties-common
+          sudo add-apt-repository -y ppa:saiarcot895/chromium-beta
+          sudo apt update
+          sudo apt install -y chromium-browser chromium-chromedriver
+          chromium-browser --no-sandbox --headless --disable-gpu --dump-dom https://google.com
+          sudo apt install -y ca-certificates fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 lsb-release wget xdg-utils unzip gnupg2
+
+#      - uses: browser-actions/setup-chrome@v1
+#        with:
+#          version: 'latest'
+
+#      - uses: nanasess/setup-chromedriver@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y doxygen gource libgs-dev pngquant libcairo2-dev libfreetype6-dev libffi-dev libjpeg-dev libpng-dev libz-dev
+
+      - name: install mkdocs deps
+        run: |
+          pip install jinja2 Pygments mkdocs mkdocs-same-dir mkdocs-minify-plugin mkdocs-redirects mkdocs-exclude mkdocs-git-committers-plugin-2 mkdocs-git-revision-date-localized-plugin mkdocs-with-pdf beautifulsoup4==4.9.3 cairosvg pillow mkdocs-rss-plugin mkdocs-timetoread-plugin tzdata lxml mkdocs-glightbox mkdocs-revealjs mkdocs-charts-plugin mkdocs-git-authors-plugin
+          npm install
+
+      - name: install squidfunk mkdocs material
+        run: |
+          if [ "${{ secrets.GH_SQUID_TOKEN }}" != '' ]; then
+          pip install git+https://${{ secrets.GH_SQUID_TOKEN }}@github.com/squidfunk/mkdocs-material-insiders.git
+          else
+          pip install mkdocs-material
+          fi          
+
+#      - name: Configure
+#        run: cmake -S. -Bbuild -DENABLE_TEST_COVERAGE=OFF -DENABLE_STANDALONE=ON -DENABLE_DOCUMENTATION=ON
+
+#      - name: Build Docs
+#        run: cmake --build build --target GenerateDocs
+#
+#      - name: Build Emscripten
+#        run: cmake --build build -j4 --config Release
+
+      - name: mkdocs
+        run: CI=1 mkdocs build
+
+      - name: COPY CNAME
+        run: cp CNAME ./site
+
+      - run: cp ./robots.txt ./site/
+
+      - name: 'Gource Action'
+        uses: nbprojekt/gource-action@v1
+        with:
+          gource_title: 'Awesome Gamedev Resources'
+#          logo_url: 'overrides/favicon/android-chrome-192x192.png'
+          gource_resolution: '1080p'
+          gource_fps: 60
+          avatars_url: contributors
+#          avatars_auto_fetch: true
+          gource_seconds_per_day: 0.1
+          gource_hide_items: mouse
+
+      - run: cp ./gource/gource.mp4 ./site/gource.mp4
+
+#      - name: Copy Emscripten build to docs
+#        run: cp -R build/out/* build/documentation/doxygen/html/
+
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          force_orphan: true
+
+      - name: Semantic Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 19.0.2
+          # You can specify specifying version range for the extra plugins if you prefer.
+          extra_plugins: |
+            @semantic-release/changelog@6.0.2
+            @semantic-release/git@10.0.1
+            @semantic-release/commit-analyzer@9.0.2
+            @semantic-release/github@8.0.7
+            @semantic-release/npm@9.0.1
+            @semantic-release/release-notes-generator@10.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Version
+        id: version
+        run: |
+          if [[ ${{ steps.semantic.outputs.new_release_published }} == true ]]
+          then     
+            export version=v${{ steps.semantic.outputs.new_release_version }}
+          else
+            export version=`git describe --abbrev=0 --tags $tag`
+          fi
+          echo "version=${version}" >> $GITHUB_OUTPUT
+
+#      - name: Latest pdf
+#        uses: ncipollo/release-action@v1
+#        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' #|| startsWith(github.ref, 'refs/tags')
+#        with:
+#          allowUpdates: true
+#          artifacts: site/pdf/document.pdf
+#          tag: latest
+#
+#      - name: Versined pdf
+#        uses: ncipollo/release-action@v1
+#        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' #|| startsWith(github.ref, 'refs/tags')
+#        with:
+#          allowUpdates: true
+#          artifacts: site/pdf/document.pdf
+#          tag: ${{ steps.version.outputs.version }}
