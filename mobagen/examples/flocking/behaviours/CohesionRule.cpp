@@ -9,17 +9,18 @@ Vector2f CohesionRule::computeForce(const std::vector<Boid*>& neighborhood, Boid
   // todo: add your code here to make a force towards the center of mass
   // hint: iterate over the neighborhood
 
-  if (!neighborhood.empty()) {
-    Vector2f sumOfPositions = Vector2f::zero();
+  if (neighborhood.empty()) return cohesionForce;
 
-    // find center of mass
-    for (Boid* neighbor : neighborhood)
-      sumOfPositions += neighbor->getPosition();
+  Vector2f sumOfPositions = Vector2f::zero();
 
-    Vector2f centerOfMass = sumOfPositions / neighborhood.size();
+  // find center of mass
+  for (Boid* neighbor : neighborhood)
+    sumOfPositions += neighbor->getPosition();
 
-    cohesionForce = (centerOfMass - boid->getPosition());
-  }
+  Vector2f centerOfMass = sumOfPositions / neighborhood.size();
+
+  cohesionForce = (centerOfMass - boid->getPosition());
+
 
   return cohesionForce;
 }
