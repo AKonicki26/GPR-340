@@ -19,7 +19,9 @@ Vector2f CohesionRule::computeForce(const std::vector<Boid*>& neighborhood, Boid
 
   Vector2f centerOfMass = sumOfPositions / neighborhood.size();
 
-  cohesionForce = (centerOfMass - boid->getPosition());
+  cohesionForce = (centerOfMass - boid->getPosition())
+    / boid->getDetectionRadius()
+  ;
 
 
   return cohesionForce;
