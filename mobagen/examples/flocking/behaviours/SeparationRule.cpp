@@ -9,7 +9,7 @@ Vector2f SeparationRule::computeForce(const std::vector<Boid*>& neighborhood, Bo
 
   float desiredDistance = desiredMinimalDistance;
 
-  if (neighborhood.empty()) return Vector2f::zero();
+  if (neighborhood.empty()) return separatingForce;
 
   const float MAX_SEPERATION_FORCE = 100;
 
