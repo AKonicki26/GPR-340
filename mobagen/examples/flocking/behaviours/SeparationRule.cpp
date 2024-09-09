@@ -28,7 +28,8 @@ Vector2f SeparationRule::computeForce(const std::vector<Boid*>& neighborhood, Bo
     }
   }
 
-  if (separatingForce.getMagnitude() > MAX_SEPERATION_FORCE) separatingForce = separatingForce.normalized() * MAX_SEPERATION_FORCE;
+  if (separatingForce.getMagnitude() > MAX_SEPERATION_FORCE)
+    separatingForce = separatingForce.normalized() * MAX_SEPERATION_FORCE;
 
   return separatingForce;
 }
