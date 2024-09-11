@@ -78,3 +78,6 @@ ehthumbs.db
 Thumbs.db
 
 external/*/
+
+# Zipped project files
+*.zip
