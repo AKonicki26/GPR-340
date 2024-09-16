@@ -36,7 +36,8 @@ int JohnConway::CountNeighbors(World& world, Point2D point) {
     for (int y = point.y - 1; y <= point.y + 1; y++) {
       Point2D potentialNeighbor = Point2D(x, y);
 
-      if (potentialNeighbor != point && world.Get(potentialNeighbor)) neighborCount++;
+      if (potentialNeighbor != point && world.Get(potentialNeighbor))
+        neighborCount++;
     }
   }
 
