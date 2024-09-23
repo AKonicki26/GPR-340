@@ -8,7 +8,7 @@
 #include <random>
 
 namespace ak {
-    AKRandom::AKRandom() {
+    Random::Random() {
         std::random_device rd;
         std::uniform_int_distribution<int> distribution(0, std::numeric_limits<int>::max());
 
@@ -23,7 +23,7 @@ namespace ak {
     }
 
     // uses xorshoftr+ to generate numbers
-    int AKRandom::nextInt() {
+    int Random::nextInt() {
         int x = mSeeds[0];
         int const y = mSeeds[1];
 
@@ -36,7 +36,7 @@ namespace ak {
         return x;
     }
 
-    void AKRandom::setBounds(int min, int max) {
+    void Random::setBounds(int min, int max) {
         if (min > max) {
             std:: cout << "ERROR: Minimum cannot be greater than Maximum.\nValues are unchanged";
             return;
@@ -45,7 +45,7 @@ namespace ak {
         mMax = max;
     }
 
-    int AKRandom::clampToBounds(int value) {
+    int Random::clampToBounds(int value) {
         return mMin + (value % (mMax - mMin + 1));
     }
 } // ak

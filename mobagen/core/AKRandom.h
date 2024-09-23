@@ -9,11 +9,11 @@
 
 namespace ak {
 
-class AKRandom {
+class Random {
 public:
-    AKRandom(int seedX, int seedY) : mSeeds(seedX, seedY), mOriginalSeeds(seedX, seedY),
+    Random(int seedX, int seedY) : mSeeds(seedX, seedY), mOriginalSeeds(seedX, seedY),
         mMin(0), mMax(std::numeric_limits<int>::max()){}
-    AKRandom();
+    Random();
     int nextInt();
     void setBounds(int min, int max);
 
