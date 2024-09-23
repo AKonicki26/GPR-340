@@ -17,7 +17,8 @@ set(CORE_INC_DIR
     CACHE PATH "CORE INCLUDE SOURCE PATH"
 )
 
-add_library(core STATIC ${CORE_SRC} ${CORE_INC})
+add_library(core STATIC ${CORE_SRC} ${CORE_INC}
+        AKRandom.cpp)
 
 if(EMSCRIPTEN)
   # target_link_libraries(core PUBLIC SDL2::SDL2 SDL2_image::SDL2_image-static IMGUI quickjspp)

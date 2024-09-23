@@ -3,10 +3,17 @@
 #include "AKRandom.h"
 #include "RecursiveBacktrackerExample.h"
 #include <climits>
+#include <algorithm>
+
 bool RecursiveBacktrackerExample::Step(World* w) {
   // todo: implement this
-  ak::Random random;
-  return false;
+
+  Point2D point = randomStartPoint(w);
+
+  getVisitables(w, point);
+  stack.push_back(point);
+
+  return true;
 }
 
 void RecursiveBacktrackerExample::Clear(World* world) {
@@ -35,7 +42,44 @@ std::vector<Point2D> RecursiveBacktrackerExample::getVisitables(World* w, const 
   auto sideOver2 = w->GetSize() / 2;
   std::vector<Point2D> visitables;
 
-  // todo: implement this
+  /// If a point is on the edge, it cannot have a neighbor on that side
+  /// So dont bother checking that edge
+  /// If not on the edge, check for the neighbor
+
+  auto getPointInStack = [this](Point2D p) -> bool {
+    return std::find(stack.begin(), stack.end(), p) != stack.end();
+  };
+
+  auto getPointVisited = [=](Point2D p) -> bool {
+    return w->GetNodeColor(p) == Color::DarkGray;
+  };
+
+  SDL_Log("Is the point in the stack? %d\n", getPointInStack(p) ? "true" : "false");
+
+  if (w->GetSouth(p)) {
+    SDL_Log("Hi");
+  }
+
+  Point2D westPoint = Point2D(p.x - 1, p.y);
+  Point2D eastPoint = Point2D(p.x + 1, p.y);
+  Point2D northPoint = Point2D(p.x, p.y + 1);
+  Point2D southPoint = Point2D(p.x, p.y - 1);
+
+
+  // X Axis
+  if (p.x != -sideOver2 && !getPointInStack(westPoint) && !getPointVisited(westPoint)) {
+    visitables.push_back(Point2D(p.x - 1, p.y));
+  }
+  if (p.x == sideOver2 && !w->GetEast(p)) {
+    visitables.push_back(Point2D(p.x + 1, p.y));
+  }
+  // Y Axis
+  if (p.y == -sideOver2 && !w->GetNorth(p)) {
+    visitables.push_back(Point2D(p.x, p.y - 1));
+  }
+  if (p.y == sideOver2 && !w->GetSouth(p)) {
+    visitables.push_back(Point2D(p.x, p.y + 1));
+  }
 
   return visitables;
 }
