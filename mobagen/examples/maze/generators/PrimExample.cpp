@@ -1,6 +1,7 @@
 #include "PrimExample.h"
 #include "../World.h"
 #include "Random.h"
+#include "AKRandom.h"
 
 bool PrimExample::Step(World* w) {
   int sideOver2 = w->GetSize() / 2;

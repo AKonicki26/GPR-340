@@ -1,6 +1,7 @@
 #include "HuntAndKillExample.h"
 #include "../World.h"
 #include "Random.h"
+#include "AKRandom.h"
 #include <climits>
 bool HuntAndKillExample::Step(World* w) {
   // todo: code this

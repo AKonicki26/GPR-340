@@ -2,8 +2,8 @@
 // Created by anne.konicki on 9/16/2024.
 //
 
-#ifndef RANDOM_H
-#define RANDOM_H
+#ifndef AKRANDOM_H
+#define AKRANDOM_H
 #include <limits>
 
 
@@ -28,4 +28,4 @@ private:
 
 } // ak
 
-#endif //RANDOM_H
+#endif //AKRANDOM_H
