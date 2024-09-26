@@ -7,11 +7,14 @@
 
 bool RecursiveBacktrackerExample::Step(World* w) {
   // todo: implement this
+  // If we don't have a starting point, make one
+  if (stack.empty()) {
+    stack.push_back(randomStartPoint(w));
+  }
 
-  Point2D point = randomStartPoint(w);
+  auto point = stack[stack.size() - 1];
 
   getVisitables(w, point);
-  stack.push_back(point);
 
   return true;
 }
@@ -46,39 +49,30 @@ std::vector<Point2D> RecursiveBacktrackerExample::getVisitables(World* w, const 
   /// So dont bother checking that edge
   /// If not on the edge, check for the neighbor
 
-  auto getPointInStack = [this](Point2D p) -> bool {
-    return std::find(stack.begin(), stack.end(), p) != stack.end();
-  };
+  auto getPointInStack = [this](Point2D p) -> bool { return std::find(stack.begin(), stack.end(), p) != stack.end(); };
 
-  auto getPointVisited = [=](Point2D p) -> bool {
-    return w->GetNodeColor(p) == Color::DarkGray;
-  };
+  auto getPointVisited = [=](Point2D p) -> bool { return w->GetNodeColor(p) != Color::DarkGray; };
 
-  SDL_Log("Is the point in the stack? %d\n", getPointInStack(p) ? "true" : "false");
-
-  if (w->GetSouth(p)) {
-    SDL_Log("Hi");
-  }
+  SDL_Log((std::string("Is the point in the stack? ") + (getPointInStack(p) ? "true" : "false")).c_str());
 
   Point2D westPoint = Point2D(p.x - 1, p.y);
   Point2D eastPoint = Point2D(p.x + 1, p.y);
   Point2D northPoint = Point2D(p.x, p.y + 1);
   Point2D southPoint = Point2D(p.x, p.y - 1);
 
-
   // X Axis
-  if (p.x != -sideOver2 && !getPointInStack(westPoint) && !getPointVisited(westPoint)) {
-    visitables.push_back(Point2D(p.x - 1, p.y));
+  if (!getPointInStack(westPoint) && !getPointVisited(westPoint)) {
+    visitables.push_back(westPoint);
   }
-  if (p.x == sideOver2 && !w->GetEast(p)) {
-    visitables.push_back(Point2D(p.x + 1, p.y));
+  if (!getPointInStack(eastPoint) && !getPointVisited(eastPoint)) {
+    visitables.push_back(eastPoint);
   }
   // Y Axis
-  if (p.y == -sideOver2 && !w->GetNorth(p)) {
-    visitables.push_back(Point2D(p.x, p.y - 1));
+  if (!getPointInStack(northPoint) && !getPointVisited(northPoint)) {
+    visitables.push_back(northPoint);
   }
-  if (p.y == sideOver2 && !w->GetSouth(p)) {
-    visitables.push_back(Point2D(p.x, p.y + 1));
+  if (!getPointInStack(southPoint) && !getPointVisited(southPoint)) {
+    visitables.push_back(southPoint);
   }
 
   return visitables;
