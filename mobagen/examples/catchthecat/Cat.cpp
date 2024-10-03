@@ -3,6 +3,12 @@
 #include <stdexcept>
 
 Point2D Cat::Move(World* world) {
+
+  auto pathToExit = generatePath(world);
+  if (!pathToExit.empty()) {
+    return pathToExit[0];
+  }
+
   auto rand = Random::Range(0, 5);
   auto pos = world->getCat();
   switch (rand) {
