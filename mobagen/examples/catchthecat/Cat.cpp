@@ -6,7 +6,7 @@ Point2D Cat::Move(World* world) {
 
   auto pathToExit = generatePath(world);
   if (!pathToExit.empty()) {
-    return pathToExit[0];
+    return pathToExit[pathToExit.size() - 1];
   }
 
   auto rand = Random::Range(0, 5);

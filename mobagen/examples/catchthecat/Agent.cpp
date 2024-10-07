@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <queue>
 #include "World.h"
+
+#include <functional>
 using namespace std;
 std::vector<Point2D> Agent::generatePath(World* w) {
   unordered_map<Point2D, Point2D> cameFrom;  // to build the flowfield and build the path
@@ -16,48 +18,47 @@ std::vector<Point2D> Agent::generatePath(World* w) {
   frontierSet.insert(catPos);
   Point2D borderExit = Point2D::INFINITE;  // if at the end of the loop we dont find a border, we have to return random points
 
-  auto getVistableNeighbors = [=](World* w, Point2D p)  -> std::vector<Point2D> {
-    auto catPos = w->getCat();
+  auto getVistableNeighbors = [&](World* world, Point2D point)  -> std::vector<Point2D> {
     std::vector<Point2D> validNeighbors;
 
-    auto isValidNeighbor = [=](Point2D neighbor) -> bool {
-      return (neighbor != catPos &&
-        !w->getContent(neighbor) &&
-        w->isValidPosition(neighbor) &&
-        !visited.contains(neighbor) &&
-        !frontierSet.contains(neighbor)
-        );
+    auto isValidNeighbor = [&](const Point2D& neighbor) -> bool {
+      if (neighbor == catPos)
+        return false;
+      if (world->getContent(neighbor))
+        return false;
+      if (visited.find(neighbor) != visited.end() && visited.at(neighbor))
+        return false;
+      if (frontierSet.contains(neighbor))
+        return false;
+      if (!world->isValidPosition(neighbor))
+        return false;
 
+      // Return true only if everything else is false
+      return true;
     };
 
-    if (isValidNeighbor(World::NE(p)))
-      validNeighbors.push_back(World::NE(p));
-    if (isValidNeighbor(World::NW(p)))
-      validNeighbors.push_back(World::NW(p));
+    // Vector of all functions that return a neighbor relative to some point p
+    std::vector<function<Point2D(Point2D)>> const neighborFunctions = { World::NE, World::NW, World::SE,
+    World::SW, World::E, World::W};
 
-    if (isValidNeighbor(World::SE(p)))
-      validNeighbors.push_back(World::SE(p));
-    if (isValidNeighbor(World::SW(p)))
-      validNeighbors.push_back(World::SW(p));
-
-    if (isValidNeighbor(World::E(p)))
-      validNeighbors.push_back(World::E(p));
-    if (isValidNeighbor(World::W(p)))
-      validNeighbors.push_back(World::W(p));
+    for (const auto& function : neighborFunctions) {
+      if (isValidNeighbor(function(point)))
+        validNeighbors.push_back(function(point));
+    }
 
     return validNeighbors;
   };
 
   while (!frontier.empty()) {
     // get the current from frontier
-    Point2D current = frontier.front();
+    Point2D const current = frontier.front();
     frontier.pop();
     // remove the current from frontierset
     frontierSet.erase(current);
     // mark current as visited
     visited[current] = true;
     // getVisitableNeightbors(world, current) returns a vector of neighbors that are not visited, not cat, not block, not in the queue
-    std::vector<Point2D> neighbors = getVistableNeighbors(w, current);
+    std::vector<Point2D> const neighbors = getVistableNeighbors(w, current);
     // iterate over the neighs:
 
     for (auto neighbor : neighbors) {
@@ -79,16 +80,14 @@ std::vector<Point2D> Agent::generatePath(World* w) {
   std::vector<Point2D> path =  std::vector<Point2D>();
   // if the border is not infinity, build the path from border to the cat using the camefrom map
   if (borderExit != Point2D::INFINITE) {
-    Point2D catPos, current;
-    catPos = w->getCat();
-    current = borderExit;
+    Point2D current = borderExit;
     do {
       path.push_back(current);
       current = cameFrom[current];
     } while (current != catPos);
   }
 
-  // if there isnt a reachable border, just return empty vector
+  // if there isn't a reachable border, just return empty vector
   // if your vector is filled from the border to the cat, the first element is the catcher move, and the last element is the cat move
   return path;
 }
