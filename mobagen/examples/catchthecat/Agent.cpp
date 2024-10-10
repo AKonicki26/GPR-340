@@ -8,6 +8,7 @@
 
 #define Weight int
 
+// struct for comparing the pairs for the priority queue
 struct WeightCompare {
   bool operator()(const std::pair<Point2D, Weight>& first, const std::pair<Point2D, Weight>& second) {
     return first.second > second.second;
