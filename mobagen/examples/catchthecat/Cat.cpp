@@ -1,5 +1,7 @@
 #include "Cat.h"
 #include "World.h"
+
+#include <functional>
 #include <stdexcept>
 
 Point2D Cat::Move(World* world) {
@@ -10,22 +12,11 @@ Point2D Cat::Move(World* world) {
   }
 
   // When no exit, make random move
+
+  // Vector of all functions that return a neighbor relative to some point p
+  std::vector<std::function<Point2D(Point2D)>> const neighborFunctions = { World::NE, World::NW, World::SE,
+  World::SW, World::E, World::W};
   auto rand = Random::Range(0, 5);
   auto pos = world->getCat();
-  switch (rand) {
-    case 0:
-      return World::NE(pos);
-    case 1:
-      return World::NW(pos);
-    case 2:
-      return World::E(pos);
-    case 3:
-      return World::W(pos);
-    case 4:
-      return World::SW(pos);
-    case 5:
-      return World::SE(pos);
-    default:
-      throw "random out of range";
-  }
+  return neighborFunctions[rand](pos);
 }
