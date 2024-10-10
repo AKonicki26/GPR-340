@@ -9,6 +9,7 @@ Point2D Cat::Move(World* world) {
     return pathToExit[pathToExit.size() - 1];
   }
 
+  // When no exit, make random move
   auto rand = Random::Range(0, 5);
   auto pos = world->getCat();
   switch (rand) {

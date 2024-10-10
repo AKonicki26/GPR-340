@@ -26,7 +26,7 @@ std::vector<Point2D> Agent::generatePath(World* w) {
         return false;
       if (world->getContent(neighbor))
         return false;
-      if (visited.find(neighbor) != visited.end() && visited.at(neighbor))
+      if (visited.contains(neighbor))
         return false;
       if (frontierSet.contains(neighbor))
         return false;
@@ -49,12 +49,17 @@ std::vector<Point2D> Agent::generatePath(World* w) {
     return validNeighbors;
   };
 
-  while (!frontier.empty()) {
+  bool exitFound = false;
+
+  while (!frontier.empty() && !exitFound) {
     // get the current from frontier
     Point2D const current = frontier.front();
     frontier.pop();
-    // remove the current from frontierset
+    // remove the current from frontierSet
     frontierSet.erase(current);
+    if (visited.contains(current)) {
+      continue;
+    }
     // mark current as visited
     visited[current] = true;
     // getVisitableNeightbors(world, current) returns a vector of neighbors that are not visited, not cat, not block, not in the queue
@@ -68,9 +73,10 @@ std::vector<Point2D> Agent::generatePath(World* w) {
       // Neighbor exists on the border
       if (abs(neighbor.x) == w->getWorldSideSize() / 2 || abs(neighbor.y) == w->getWorldSideSize() / 2) {
         borderExit = neighbor;
+        exitFound = true;
         break;
       }
-    // enqueue the neighbors to frontier and frontierset
+    // enqueue the neighbors to frontier and frontierSet
       frontier.push(neighbor);
       frontierSet.insert(neighbor);
     }
@@ -78,7 +84,7 @@ std::vector<Point2D> Agent::generatePath(World* w) {
   }
 
   std::vector<Point2D> path =  std::vector<Point2D>();
-  // if the border is not infinity, build the path from border to the cat using the camefrom map
+  // if the border is not infinity, build the path from border to the cat using the cameFrom map
   if (borderExit != Point2D::INFINITE) {
     Point2D current = borderExit;
     do {
