@@ -6,9 +6,13 @@
 
 #include <functional>
 
-#define Weight int
+#define Weight unsigned int
+
+template<typename T>
+concept UnsignedDatatype = !std::is_signed_v<T>;
 
 // struct for comparing the pairs for the priority queue
+template<UnsignedDatatype T>
 struct WeightCompare {
   bool operator()(const std::pair<Point2D, Weight>& first, const std::pair<Point2D, Weight>& second) {
     return first.second > second.second;
@@ -19,7 +23,7 @@ using namespace std;
 std::vector<Point2D> Agent::generatePath(World* w) {
   unordered_map<Point2D, Point2D> cameFrom;  // to build the flowfield and build the path
 
-  priority_queue<std::pair<Point2D, Weight>, vector<std::pair<Point2D, Weight>>, WeightCompare> frontier;
+  priority_queue<std::pair<Point2D, Weight>, vector<std::pair<Point2D, Weight>>, WeightCompare<Weight>> frontier;
 
   //queue<Point2D> frontier;                   // to store next ones to visit
   unordered_set<Point2D> frontierSet;        // OPTIMIZATION to check faster if a point is in the queue
