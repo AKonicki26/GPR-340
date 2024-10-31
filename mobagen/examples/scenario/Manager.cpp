@@ -2,7 +2,9 @@
 #include "math/Point2D.h"
 #include "generators/ParticleGenerator.h"
 #include "generators/RandomGenerator.h"
+#include "generators/WaveFunctionGenerator.h"
 #include "engine/Engine.h"
+
 
 #include <chrono>
 
@@ -10,6 +12,7 @@ Manager::Manager(Engine* engine, int size) : GameObject(engine) {
   // todo: add your generator
   generators.push_back(new ParticleGenerator());
   generators.push_back(new RandomScenarioGenerator());
+  generators.push_back(new WaveFunctionGenerator());
 }
 
 void Manager::SetPixels(std::vector<Color32>& input) {
